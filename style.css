@@ -787,6 +787,131 @@ code {
 
 .copy-btn:hover { background: rgba(255,255,255,.25); }
 
+/* ---------- Finding dividers ---------- */
+.finding-box + .subsection-title,
+.finding-box + .case-study-title {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+/* =============================================
+   MOBILE / RESPONSIVE
+   ============================================= */
+
+/* Navbar: collapse links to scrollable strip on small screens */
+@media (max-width: 768px) {
+  .nav-brand { display: none; }
+  .nav-inner { padding: 0 8px; }
+  .nav-links {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 2px;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 0 4px;
+  }
+  .nav-links a {
+    font-size: 12.5px;
+    padding: 5px 8px;
+    white-space: nowrap;
+  }
+}
+
+/* Hero */
+@media (max-width: 600px) {
+  .hero {
+    padding: calc(var(--nav-h) + 40px) 0 48px;
+  }
+  .hero .container { padding: 0 16px; }
+  .paper-title { font-size: clamp(22px, 6vw, 32px); }
+  .title-sub   { font-size: clamp(17px, 5vw, 24px); }
+  .authors { gap: 4px 12px; }
+  .author  { font-size: 15px; }
+  .affiliations { font-size: 13px; }
+  .tldr { font-size: 15px; padding: 14px 16px; }
+}
+
+/* Sections */
+@media (max-width: 600px) {
+  .section { padding: 52px 0; }
+  .container { padding: 0 16px; }
+  .section-title    { font-size: 24px; }
+  .subsection-title { font-size: 18px; }
+  .section-desc     { font-size: 15px; }
+  .abstract-text    { font-size: 15.5px; }
+  .finding-box      { font-size: 15px; padding: 14px 16px; }
+  .figure-medium { max-width: 100%; }
+}
+
+/* Concept figure: stack on mobile */
+@media (max-width: 640px) {
+  .concept-figure-row { flex-direction: column; }
+}
+
+/* Memory type cards */
+@media (max-width: 600px) {
+  .memory-types { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 400px) {
+  .memory-types { grid-template-columns: 1fr; }
+}
+
+/* Pipeline: stack on mobile */
+@media (max-width: 640px) {
+  .pipeline-steps { flex-direction: column; gap: 12px; }
+  .pipeline-arrow { transform: rotate(90deg); align-self: center; padding: 4px 0; }
+  .pipeline-step  { min-width: 0; }
+}
+
+/* RQ items */
+@media (max-width: 500px) {
+  .rq-item { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .rq-item p { font-size: 15px; }
+}
+
+/* Negative transfer grid */
+@media (max-width: 600px) {
+  .negative-transfer-grid { grid-template-columns: 1fr; }
+}
+
+/* Abstraction row */
+@media (max-width: 700px) {
+  .abstraction-row { grid-template-columns: 1fr; }
+}
+
+/* Two-col figures */
+@media (max-width: 600px) {
+  .two-col-figures { grid-template-columns: 1fr; }
+}
+
+/* Results tables: already wrapped in .table-scroll with overflow-x:auto */
+@media (max-width: 600px) {
+  .results-table { font-size: 12.5px; }
+  .results-table thead th,
+  .results-table tbody td { padding: 9px 10px; }
+  .table-caption { font-size: 13.5px; }
+}
+
+/* Case study column widths (desktop) */
+.case-table .col-label   { width: 9%; }
+.case-table .col-content { width: 45.5%; }
+
+/* Case study tables: mobile */
+@media (max-width: 700px) {
+  .case-table { table-layout: auto; font-size: 12.5px; }
+  .case-table .col-label,
+  .case-table .col-content { width: auto; }
+  .case-table thead th,
+  .case-table tbody td { padding: 10px 10px; }
+}
+
+/* BibTeX */
+@media (max-width: 600px) {
+  .bibtex-block { padding: 16px 14px; }
+  .bibtex-block pre { font-size: 12px; }
+}
+
 /* ---------- Footer ---------- */
 .footer {
   background: var(--text-primary);

@@ -48,6 +48,7 @@
       <sup>1</sup>KAIST &nbsp;&nbsp;
       <sup>2</sup>New York University &nbsp;&nbsp;
       <sup>3</sup>DeepAuto.ai &nbsp;&nbsp;
+      <br>
       <sup>†</sup>Equal advising
     </div>
     <p class="correspondence">Correspondence: <a href="mailto:kangsan.kim@kaist.ac.kr">kangsan.kim@kaist.ac.kr</a></p>
@@ -76,17 +77,17 @@
     <!-- Two-panel concept figure -->
     <div class="concept-figure-row">
       <figure class="figure-block" style="margin:0;">
-        <img src="images/concept_figure_abc.png" alt="MTL Concept (A-C)" />
+        <img src="images/concept_figure_ab.png" alt="MTL Concept (A-B)" />
         <figcaption>
-          <strong>(A–C)</strong> Unlike memory-less agents (A) or single-domain self-evolving agents (B),
-          MTL (C) leverages a unified memory pool from heterogeneous coding tasks.
+          <strong>(A)</strong> Memory-less agents cannot reflect on past experience.
+          <strong>(B)</strong> Self-evolving agents leverage memory but only within a single domain.
         </figcaption>
       </figure>
       <figure class="figure-block" style="margin:0;">
-        <img src="images/concept_figure_d.png" alt="MTL Performance (D)" />
+        <img src="images/concept_figure_cd.png" alt="MTL Concept (C-D)" />
         <figcaption>
-          <strong>(D)</strong> Across coding benchmarks, MTL (hatched bars) consistently outperforms
-          single-domain self-evolving agents (solid bars) across all four memory formats.
+          <strong>(C)</strong> MTL leverages a unified memory pool from heterogeneous coding tasks.
+          <strong>(D)</strong> MTL (hatched bars) consistently outperforms self-evolving agents across all four memory formats.
         </figcaption>
       </figure>
     </div>
@@ -374,9 +375,9 @@
       <table class="case-table">
         <thead>
           <tr>
-            <th style="width:9%"></th>
-            <th style="width:45.5%">Zero-Shot <span class="badge badge-fail">Fail</span></th>
-            <th style="width:45.5%">MTL with Insight <span class="badge badge-pass">Success</span></th>
+            <th class="col-label"></th>
+            <th class="col-content">Zero-Shot <span class="badge badge-fail">Fail</span></th>
+            <th class="col-content">MTL with Insight <span class="badge badge-pass">Success</span></th>
           </tr>
         </thead>
         <tbody>
@@ -476,9 +477,9 @@
       <table class="case-table">
         <thead>
           <tr>
-            <th style="width:9%"></th>
-            <th style="width:45.5%">MTL with Trajectory <span class="badge badge-fail">Fail</span></th>
-            <th style="width:45.5%">MTL with Insight <span class="badge badge-pass">Success</span></th>
+            <th class="col-label"></th>
+            <th class="col-content">MTL with Trajectory <span class="badge badge-fail">Fail</span></th>
+            <th class="col-content">MTL with Insight <span class="badge badge-pass">Success</span></th>
           </tr>
         </thead>
         <tbody>
@@ -659,12 +660,7 @@
     <p class="section-desc">If you find this work useful, please cite:</p>
     <div class="bibtex-block">
       <button class="copy-btn" onclick="copyBibtex()" id="copy-btn">Copy</button>
-      <pre id="bibtex-content">@inproceedings{kim2026memorytransfer,
-  title     = {Memory Transfer Learning: How Memories are Transferred Across Domains in Coding Agents},
-  author    = {Kim, Kangsan and Kang, Minki and Kim, Taeil and Yang, Yanlai and Ren, Mengye and Hwang, Sung Ju},
-  booktitle = {International Conference on Machine Learning (ICML)},
-  year      = {2026}
-}</pre>
+      <pre id="bibtex-content">TO BE ADDED</pre>
     </div>
   </div>
 </section>
