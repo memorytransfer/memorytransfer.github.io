@@ -294,40 +294,56 @@ img { max-width: 100%; height: auto; display: block; }
   .two-col-figures { grid-template-columns: 1fr; }
 }
 
-/* ---------- RQ Cards ---------- */
-.rq-grid {
+/* ---------- Concept Figure two-panel ---------- */
+.concept-figure-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 36px;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 36px;
+  align-items: start;
 }
 
-@media (max-width: 700px) {
-  .rq-grid { grid-template-columns: 1fr; }
+@media (max-width: 640px) {
+  .concept-figure-row { grid-template-columns: 1fr; }
 }
 
-.rq-card {
-  background: var(--bg);
+/* ---------- RQ List (one per row) ---------- */
+.rq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.rq-item {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  background: var(--bg-alt);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  padding: 20px 18px;
+  padding: 16px 20px;
   box-shadow: var(--shadow-sm);
 }
 
 .rq-label {
-  font-size: 11px;
+  flex-shrink: 0;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 8px;
+  background: var(--accent-light);
+  padding: 3px 10px;
+  border-radius: 6px;
 }
 
-.rq-card p {
-  font-size: 15.5px;
+.rq-item p {
+  font-size: 16px;
   color: var(--text-secondary);
   font-style: italic;
-  line-height: 1.65;
+  line-height: 1.6;
+  margin: 0;
 }
 
 /* ---------- Memory Type Cards ---------- */

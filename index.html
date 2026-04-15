@@ -17,8 +17,8 @@
   <div class="nav-inner">
     <span class="nav-brand">Memory Transfer Learning</span>
     <ul class="nav-links">
-      <li><a href="#abstract">Abstract</a></li>
       <li><a href="#overview">Overview</a></li>
+      <li><a href="#abstract">Abstract</a></li>
       <li><a href="#method">Method</a></li>
       <li><a href="#results">Results</a></li>
       <li><a href="#analysis">Analysis</a></li>
@@ -63,8 +63,54 @@
   </div>
 </header>
 
+<!-- ===================== OVERVIEW ===================== -->
+<section id="overview" class="section">
+  <div class="container">
+    <h2 class="section-title">Overview</h2>
+    <p class="section-desc">
+      Existing self-evolving coding agents restrict memory usage to the same benchmark (B).
+      We propose Memory Transfer Learning (C), which leverages a unified memory pool from
+      heterogeneous domains, and show it outperforms domain-restricted approaches (D).
+    </p>
+
+    <!-- Two-panel concept figure -->
+    <div class="concept-figure-row">
+      <figure class="figure-block" style="margin:0;">
+        <img src="images/concept_figure_abc.png" alt="MTL Concept (A-C)" />
+        <figcaption>
+          <strong>(A–C)</strong> Unlike memory-less agents (A) or single-domain self-evolving agents (B),
+          MTL (C) leverages a unified memory pool from heterogeneous coding tasks.
+        </figcaption>
+      </figure>
+      <figure class="figure-block" style="margin:0;">
+        <img src="images/concept_figure_d.png" alt="MTL Performance (D)" />
+        <figcaption>
+          <strong>(D)</strong> Across coding benchmarks, MTL (hatched bars) consistently outperforms
+          single-domain self-evolving agents (solid bars) across all four memory formats.
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- Research Questions -->
+    <div class="rq-list">
+      <div class="rq-item">
+        <span class="rq-label">RQ1</span>
+        <p>Does memory from heterogeneous domains improve the performance of coding agents?</p>
+      </div>
+      <div class="rq-item">
+        <span class="rq-label">RQ2</span>
+        <p>Why do transferred memories yield benefits across different domains?</p>
+      </div>
+      <div class="rq-item">
+        <span class="rq-label">RQ3</span>
+        <p>Which factors in memory transfer learning most influence transfer effectiveness?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== ABSTRACT ===================== -->
-<section id="abstract" class="section">
+<section id="abstract" class="section section-alt">
   <div class="container">
     <h2 class="section-title">Abstract</h2>
     <p class="abstract-text">
@@ -75,43 +121,6 @@
       Furthermore, we show that transfer effectiveness scales with the size of the memory pool, and memory can be transferred even between different models.
       Our work establishes empirical design principles for expanding memory utilization beyond single-domain silos.
     </p>
-  </div>
-</section>
-
-<!-- ===================== OVERVIEW ===================== -->
-<section id="overview" class="section section-alt">
-  <div class="container">
-    <h2 class="section-title">Overview</h2>
-    <p class="section-desc">
-      Existing self-evolving coding agents restrict memory usage to the same benchmark (B).
-      We propose Memory Transfer Learning (C), which leverages a unified memory pool from
-      heterogeneous domains, and show it outperforms domain-restricted approaches (D).
-    </p>
-    <figure class="figure-block figure-wide">
-      <img src="images/concept_figure2.png" alt="MTL Concept Figure" />
-      <figcaption>
-        <strong>Figure 1.</strong> Concept of Memory Transfer Learning. (A) Prior inference
-        outcomes are saved as memories. (B) Self-evolving agents reuse memories only within the
-        same domain. (C) MTL builds a unified pool from all domains. (D) MTL consistently
-        outperforms single-domain memory approaches.
-      </figcaption>
-    </figure>
-
-    <!-- Research Questions -->
-    <div class="rq-grid">
-      <div class="rq-card">
-        <div class="rq-label">RQ1</div>
-        <p>Does memory from heterogeneous domains improve the performance of coding agents?</p>
-      </div>
-      <div class="rq-card">
-        <div class="rq-label">RQ2</div>
-        <p>Why do transferred memories yield benefits across different domains?</p>
-      </div>
-      <div class="rq-card">
-        <div class="rq-label">RQ3</div>
-        <p>Which factors in memory transfer learning most influence transfer effectiveness?</p>
-      </div>
-    </div>
   </div>
 </section>
 
