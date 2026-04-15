@@ -15,7 +15,7 @@
 <!-- ===================== NAVBAR ===================== -->
 <nav id="navbar">
   <div class="nav-inner">
-    <span class="nav-brand">MTL</span>
+    <span class="nav-brand">Memory Transfer Learning</span>
     <ul class="nav-links">
       <li><a href="#abstract">Abstract</a></li>
       <li><a href="#overview">Overview</a></li>
@@ -30,7 +30,7 @@
 <!-- ===================== HERO ===================== -->
 <header class="hero">
   <div class="container">
-    <p class="venue-badge">ICML 2026</p>
+    <!-- <p class="venue-badge">ICML 2026</p> -->
     <h1 class="paper-title">
       Memory Transfer Learning:<br />
       <span class="title-sub">How Memories are Transferred Across Domains in Coding Agents</span>
@@ -219,27 +219,119 @@
       MTL consistently improves performance across all six coding benchmarks.
       Insight memories achieve the best results, with gains of up to <strong>8.3%</strong> on individual benchmarks.
     </p>
-    <figure class="figure-block figure-wide">
-      <img src="images/main_results.png" alt="Main Results Table" />
-      <figcaption>
-        <strong>Table 1.</strong> Pass@3 scores across 6 coding benchmarks under zero-shot,
-        self-evolving, and Memory Transfer Learning settings with four memory formats.
-        MTL with Insight achieves a <strong>+4.0% average gain</strong> over zero-shot.
-      </figcaption>
-    </figure>
+    <div class="table-wrap">
+      <p class="table-caption"><strong>Table 1.</strong> Pass@3 scores across 6 coding benchmarks under zero-shot and Memory Transfer Learning settings with four memory formats (T=Trajectory, W=Workflow, S=Summary, I=Insight). MTL with Insight achieves a <strong>+3.7% average gain</strong> over zero-shot.</p>
+      <div class="table-scroll">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>LiveCodeBenchv6</th>
+            <th>Aider-Polyglot</th>
+            <th>SWEBench-Verified</th>
+            <th>TerminalBench2</th>
+            <th>ReplicationBench</th>
+            <th>MLGym-Bench</th>
+            <th>Avg.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="model-header-row"><td colspan="8"><strong>GPT-5-mini</strong></td></tr>
+          <tr>
+            <td>Zero-Shot</td>
+            <td>0.910</td><td>0.470</td><td>0.730</td><td>0.315</td><td>0.111</td><td>0.667</td><td>0.523</td>
+          </tr>
+          <tr>
+            <td>MTL (T)</td>
+            <td>0.940</td><td>0.490</td><td>0.770</td><td>0.270</td><td>0.122</td><td>0.583</td><td>0.534</td>
+          </tr>
+          <tr>
+            <td>MTL (W)</td>
+            <td>0.920</td><td>0.470</td><td>0.770</td><td>0.348</td><td>0.111</td><td>0.583</td><td>0.538</td>
+          </tr>
+          <tr>
+            <td>MTL (S)</td>
+            <td>0.930</td><td>0.460</td><td>0.760</td><td>0.371</td><td>0.133</td><td>0.667</td><td><u>0.546</u></td>
+          </tr>
+          <tr>
+            <td>MTL (I)</td>
+            <td>0.930</td><td>0.470</td><td>0.770</td><td>0.360</td><td>0.189</td><td>0.750</td><td><strong>0.560</strong></td>
+          </tr>
+          <tr class="delta-row">
+            <td>Δ</td>
+            <td>+2.0%</td><td>0.0%</td><td>+4.0%</td><td>+4.5%</td><td>+7.8%</td><td>+8.3%</td><td><strong>+3.7%</strong></td>
+          </tr>
+          <tr class="model-header-row"><td colspan="8"><strong>DeepSeek V3.2</strong></td></tr>
+          <tr>
+            <td>Zero-Shot</td>
+            <td>0.930</td><td>0.590</td><td>0.530</td><td>0.337</td><td>0.267</td><td>0.583</td><td>0.542</td>
+          </tr>
+          <tr>
+            <td>MTL (I)</td>
+            <td>0.940</td><td>0.580</td><td>0.590</td><td>0.393</td><td>0.278</td><td>0.667</td><td><strong>0.568</strong></td>
+          </tr>
+          <tr class="delta-row">
+            <td>Δ</td>
+            <td>+1.0%</td><td>−1.0%</td><td>+6.0%</td><td>+5.6%</td><td>+1.1%</td><td>+8.3%</td><td><strong>+2.6%</strong></td>
+          </tr>
+          <tr class="model-header-row"><td colspan="8"><strong>Qwen3-Coder-480B-A35B-Instruct</strong></td></tr>
+          <tr>
+            <td>Zero-Shot</td>
+            <td>0.800</td><td>0.460</td><td>0.590</td><td>0.292</td><td>0.211</td><td>0.583</td><td>0.483</td>
+          </tr>
+          <tr>
+            <td>MTL (I)</td>
+            <td>0.810</td><td>0.480</td><td>0.620</td><td>0.326</td><td>0.211</td><td>0.583</td><td><strong>0.501</strong></td>
+          </tr>
+          <tr class="delta-row">
+            <td>Δ</td>
+            <td>+1.0%</td><td>+2.0%</td><td>+3.0%</td><td>+3.4%</td><td>0.0%</td><td>0.0%</td><td><strong>+1.8%</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
 
     <h3 class="subsection-title">Comparison with Self-Evolving Baselines</h3>
     <p class="section-desc">
       MTL outperforms ReasoningBank (+2.9%) and AgentKB (+1.7%) with only <strong>431 memories</strong>
       — far fewer than AgentKB's 5.8k memories — demonstrating both effectiveness and efficiency.
     </p>
-    <figure class="figure-block figure-medium">
-      <img src="images/average_score.png" alt="Average Score Comparison" />
-      <figcaption>
-        <strong>Figure 3.</strong> Average performance comparison across MTL configurations and
-        self-evolving baselines.
-      </figcaption>
-    </figure>
+    <div class="table-wrap">
+      <p class="table-caption"><strong>Table 2.</strong> Pass@3 comparison with self-evolving methods on three benchmarks. MTL outperforms both baselines using only 431 memories vs. AgentKB's 5,899.</p>
+      <div class="table-scroll">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>#Memories</th>
+            <th>LiveCodeBenchv6</th>
+            <th>SWEBench-Verified</th>
+            <th>ReplicationBench</th>
+            <th>Avg.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Zero-Shot</td>
+            <td>—</td><td>0.910</td><td>0.730</td><td>0.111</td><td>0.584</td>
+          </tr>
+          <tr>
+            <td>ReasoningBank</td>
+            <td>97</td><td>0.920</td><td>0.750</td><td>0.133</td><td>0.601</td>
+          </tr>
+          <tr>
+            <td>AgentKB</td>
+            <td>5,899</td><td>0.920</td><td>0.720</td><td>0.200</td><td><u>0.613</u></td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>MTL (Ours)</strong></td>
+            <td><strong>431</strong></td><td>0.930</td><td>0.770</td><td>0.189</td><td><strong>0.630</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
 
     <!-- Finding Box -->
     <div class="finding-box">
@@ -300,6 +392,37 @@
         </figcaption>
       </figure>
     </div>
+    <div class="table-wrap" style="margin-top:24px;">
+      <p class="table-caption"><strong>Table 3.</strong> Causal analysis: within Insight memories, task-agnostic memories consistently outperform task-specific ones, confirming that abstraction — not format — drives transfer effectiveness.</p>
+      <div class="table-scroll">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>LiveCodeBenchv6</th>
+            <th>SWEBench-Verified</th>
+            <th>ReplicationBench</th>
+            <th>Avg.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Task-specific Insights</td>
+            <td>0.887</td><td>0.617</td><td>0.067</td><td>0.523</td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>Task-agnostic Insights</strong></td>
+            <td>0.893</td><td>0.627</td><td>0.082</td><td><strong>0.534</strong></td>
+          </tr>
+          <tr class="delta-row">
+            <td>Δ</td>
+            <td>+0.6%</td><td>+1.0%</td><td>+1.5%</td><td><strong>+1.1%</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
     <div class="finding-box">
       <span class="finding-label">Finding 3</span>
       More abstract and generalized memory representations yield higher transfer effectiveness
@@ -360,6 +483,39 @@
       Since meta-knowledge is model-agnostic, memories generated by one model can benefit a
       different model — in both directions (stronger→weaker and weaker→stronger).
     </p>
+    <div class="table-wrap">
+      <p class="table-caption"><strong>Table 4.</strong> Average Pass@1 results of cross-model, cross-domain memory transfer. Cross-model transfer consistently outperforms zero-shot, while self-generated memories (source = target) yield the best results.</p>
+      <div class="table-scroll">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Memory Source</th>
+            <th>Target Model</th>
+            <th>LiveCodeBenchv6</th>
+            <th>SWEBench-Verified</th>
+            <th>ReplicationBench</th>
+            <th>Avg.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="model-header-row"><td colspan="6">Target: GPT-5-mini</td></tr>
+          <tr><td>Zero-Shot</td><td>GPT-5-mini</td><td>0.863</td><td>0.623</td><td>0.059</td><td>0.515</td></tr>
+          <tr><td>DeepSeek V3.2</td><td>GPT-5-mini</td><td>0.890</td><td>0.617</td><td>0.048</td><td>0.518</td></tr>
+          <tr><td>Qwen3-Coder</td><td>GPT-5-mini</td><td>0.883</td><td>0.607</td><td>0.093</td><td><u>0.528</u></td></tr>
+          <tr class="highlight-row"><td><strong>GPT-5-mini</strong></td><td>GPT-5-mini</td><td>0.877</td><td>0.633</td><td>0.119</td><td><strong>0.543</strong></td></tr>
+          <tr class="model-header-row"><td colspan="6">Target: DeepSeek V3.2</td></tr>
+          <tr><td>Zero-Shot</td><td>DeepSeek V3.2</td><td>0.890</td><td>0.423</td><td>0.144</td><td>0.486</td></tr>
+          <tr><td>GPT-5-mini</td><td>DeepSeek V3.2</td><td>0.890</td><td>0.450</td><td>0.163</td><td><u>0.501</u></td></tr>
+          <tr class="highlight-row"><td><strong>DeepSeek V3.2</strong></td><td>DeepSeek V3.2</td><td>0.893</td><td>0.463</td><td>0.178</td><td><strong>0.511</strong></td></tr>
+          <tr class="model-header-row"><td colspan="6">Target: Qwen3-Coder</td></tr>
+          <tr><td>Zero-Shot</td><td>Qwen3-Coder</td><td>0.733</td><td>0.347</td><td>0.126</td><td>0.402</td></tr>
+          <tr><td>GPT-5-mini</td><td>Qwen3-Coder</td><td>0.780</td><td>0.347</td><td>0.111</td><td><strong>0.413</strong></td></tr>
+          <tr class="highlight-row"><td><strong>Qwen3-Coder</strong></td><td>Qwen3-Coder</td><td>0.740</td><td>0.370</td><td>0.130</td><td><strong>0.413</strong></td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
     <div class="finding-box">
       <span class="finding-label">Finding 6</span>
       Memory can be transferred across different models. Self-generated memories yield the
