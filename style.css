@@ -241,7 +241,6 @@ img { max-width: 100%; height: auto; display: block; }
 .section-desc {
   font-size: 17px;
   color: var(--text-secondary);
-  max-width: 720px;
   margin-bottom: 24px;
 }
 
@@ -251,7 +250,6 @@ img { max-width: 100%; height: auto; display: block; }
   line-height: 1.85;
   color: var(--text-primary);
   margin-bottom: 16px;
-  max-width: 720px;
 }
 
 /* ---------- Figures ---------- */
@@ -788,11 +786,16 @@ code {
 .copy-btn:hover { background: rgba(255,255,255,.25); }
 
 /* ---------- Finding dividers ---------- */
-.finding-box + .subsection-title,
-.finding-box + .case-study-title {
+.finding-box + .subsection-title {
   margin-top: 56px;
   padding-top: 40px;
   border-top: 1px solid var(--border);
+}
+
+/* Case study: spacing after figure/table rows */
+.abstraction-row + .case-study-title,
+.figure-block + .case-study-title {
+  margin-top: 40px;
 }
 
 /* =============================================

@@ -77,16 +77,16 @@
     <!-- Two-panel concept figure -->
     <div class="concept-figure-row">
       <figure class="figure-block" style="margin:0;">
-        <img src="images/concept_figure_ab.png" alt="MTL Concept (A-B)" />
+        <img src="images/concept_figure_abc.png" alt="MTL Concept (A-B-C)" />
         <figcaption>
           <strong>(A)</strong> Memory-less agents cannot reflect on past experience.
           <strong>(B)</strong> Self-evolving agents leverage memory but only within a single domain.
+          <strong>(C)</strong> MTL leverages a unified memory pool from heterogeneous coding tasks.
         </figcaption>
       </figure>
       <figure class="figure-block" style="margin:0;">
-        <img src="images/concept_figure_cd.png" alt="MTL Concept (C-D)" />
+        <img src="images/concept_figure_d.png" alt="MTL Concept (D)" />
         <figcaption>
-          <strong>(C)</strong> MTL leverages a unified memory pool from heterogeneous coding tasks.
           <strong>(D)</strong> MTL (hatched bars) consistently outperforms self-evolving agents across all four memory formats.
         </figcaption>
       </figure>
@@ -358,12 +358,6 @@
         (5.5%).
       </figcaption>
     </figure>
-    <div class="finding-box">
-      <span class="finding-label">Finding 2</span>
-      Transferable knowledge exists across distinct task types, and its primary form is
-      <em>meta-memory</em> encoding procedural and behavioral guidance — not domain-specific code.
-    </div>
-
     <!-- Case Study: Zero-shot vs. MTL -->
     <h4 class="case-study-title">Case Study: Zero-Shot vs. Memory Transfer Learning</h4>
     <p class="section-desc">
@@ -401,6 +395,12 @@
       </div>
     </div>
 
+    <div class="finding-box">
+      <span class="finding-label">Finding 2</span>
+      Transferable knowledge exists across distinct task types, and its primary form is
+      <em>meta-memory</em> encoding procedural and behavioral guidance — not domain-specific code.
+    </div>
+
     <!-- Analysis 2: Abstraction -->
     <h3 class="subsection-title">Abstraction Dictates Transferability</h3>
     <p class="section-desc">
@@ -417,6 +417,18 @@
         indicating stronger generalization.
       </figcaption>
     </figure>
+
+    <!-- Row 2 description -->
+    <p class="section-desc">
+      To quantify the geometric separation observed in Figure 5, we compute two clustering metrics —
+      the Davies-Bouldin Index (DBI) and the Local Inverse Simpson's Index (LISI) — across all four
+      memory formats (Figure 6). Both metrics increase monotonically from Trajectory to Insight,
+      confirming that higher-level representations yield progressively more intermingled, benchmark-agnostic
+      embedding spaces. To establish that abstraction itself — rather than the Insight format per se —
+      drives transfer effectiveness, we further conduct a causal analysis within Insight memories
+      (Table 3): filtering to task-agnostic Insights consistently outperforms task-specific ones
+      across all three benchmarks, with an average gain of <strong>+1.1%</strong>.
+    </p>
 
     <!-- Row 2: index_metric + causal analysis table side by side -->
     <div class="abstraction-row">
@@ -458,12 +470,6 @@
         </table>
         </div>
       </div>
-    </div>
-
-    <div class="finding-box">
-      <span class="finding-label">Finding 3</span>
-      More abstract and generalized memory representations yield higher transfer effectiveness
-      by avoiding brittle implementation anchoring.
     </div>
 
     <!-- Case Study: Trajectory vs. Insight -->
@@ -508,6 +514,12 @@
         </tbody>
       </table>
       </div>
+    </div>
+
+    <div class="finding-box">
+      <span class="finding-label">Finding 3</span>
+      More abstract and generalized memory representations yield higher transfer effectiveness
+      by avoiding brittle implementation anchoring.
     </div>
 
     <!-- Analysis 3: Negative Transfer -->
