@@ -8,7 +8,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -368,22 +368,63 @@
       <em>meta-memory</em> encoding procedural and behavioral guidance — not domain-specific code.
     </div>
 
+    <!-- Case Study: Zero-shot vs. MTL -->
+    <h4 class="case-study-title">Case Study: Zero-Shot vs. Memory Transfer Learning</h4>
+    <p class="section-desc">
+      An Insight memory generated from LiveCodeBench provides inline test validation guidance,
+      enabling the agent to succeed on an SWE-Bench task where zero-shot fails.
+    </p>
+    <div class="case-study-table-wrap">
+      <div class="table-scroll">
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th style="width:9%"></th>
+            <th style="width:45.5%">Zero-Shot <span class="badge badge-fail">Fail</span></th>
+            <th style="width:45.5%">MTL with Insight <span class="badge badge-pass">Success</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="case-label">Memory</td>
+            <td><em>(No memory)</em></td>
+            <td>
+              <span class="case-source">Memory Item 2 — From LiveCodeBench</span><br/>
+              <strong>Title:</strong> Create quick self-contained tests using an inline Python here-doc to validate fixes<br/><br/>
+              <strong>Description:</strong> When making small code fixes, write a minimal test that covers the exact scenario described in the problem...<br/><br/>
+              <strong>Content:</strong> Set up a short battery of tests that cover the specific edge cases mentioned, run them inline with a Python here-doc to confirm the fix works before submitting...
+            </td>
+          </tr>
+          <tr>
+            <td class="case-label">Reasoning</td>
+            <td>I will modify <code>django/db/models/aggregates.py</code> to <span class="case-error">raise a FieldError</span> when an Aggregate's source expression contains a window clause. This prevents creating an aggregate over a window expression...</td>
+            <td>I will use <span class="case-success">Memory Item 2 (use an inline Python here-doc for safe, atomic edits and quick verification)</span> to modify <code>django/db/models/sql/query.py</code>. The goal is to ensure that when resolving aggregates we detect if any referenced annotation is a subquery or contains a window expression...</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
     <!-- Analysis 2: Abstraction -->
     <h3 class="subsection-title">Abstraction Dictates Transferability</h3>
     <p class="section-desc">
       We visualize memory embedding spaces and quantify cluster structure across benchmarks to
       verify that higher abstraction correlates with stronger transferability.
     </p>
-    <div class="two-col-figures">
-      <figure class="figure-block">
-        <img src="images/t-sne.png" alt="t-SNE Visualization" />
-        <figcaption>
-          <strong>Figure 5.</strong> t-SNE of memory embeddings. Trajectory embeddings form
-          tight benchmark clusters; Insight embeddings are sparse and intermingled across benchmarks,
-          indicating stronger generalization.
-        </figcaption>
-      </figure>
-      <figure class="figure-block">
+
+    <!-- Row 1: t-SNE full width -->
+    <figure class="figure-block figure-wide">
+      <img src="images/t-sne.png" alt="t-SNE Visualization" />
+      <figcaption>
+        <strong>Figure 5.</strong> t-SNE of memory embeddings. Trajectory embeddings form
+        tight benchmark clusters; Insight embeddings are sparse and intermingled across benchmarks,
+        indicating stronger generalization.
+      </figcaption>
+    </figure>
+
+    <!-- Row 2: index_metric + causal analysis table side by side -->
+    <div class="abstraction-row">
+      <figure class="figure-block" style="margin:0;">
         <img src="images/index_metric.png" alt="Clustering Metrics" />
         <figcaption>
           <strong>Figure 6.</strong> Davies-Bouldin Index (DBI) and Local Inverse Simpson's
@@ -391,35 +432,35 @@
           transition from task-specific to generalized representations.
         </figcaption>
       </figure>
-    </div>
-    <div class="table-wrap" style="margin-top:24px;">
-      <p class="table-caption"><strong>Table 3.</strong> Causal analysis: within Insight memories, task-agnostic memories consistently outperform task-specific ones, confirming that abstraction — not format — drives transfer effectiveness.</p>
-      <div class="table-scroll">
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th>Method</th>
-            <th>LiveCodeBenchv6</th>
-            <th>SWEBench-Verified</th>
-            <th>ReplicationBench</th>
-            <th>Avg.</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Task-specific Insights</td>
-            <td>0.887</td><td>0.617</td><td>0.067</td><td>0.523</td>
-          </tr>
-          <tr class="highlight-row">
-            <td><strong>Task-agnostic Insights</strong></td>
-            <td>0.893</td><td>0.627</td><td>0.082</td><td><strong>0.534</strong></td>
-          </tr>
-          <tr class="delta-row">
-            <td>Δ</td>
-            <td>+0.6%</td><td>+1.0%</td><td>+1.5%</td><td><strong>+1.1%</strong></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrap" style="margin:0;">
+        <p class="table-caption"><strong>Table 3.</strong> Causal analysis: within Insight memories, task-agnostic memories consistently outperform task-specific ones, confirming that abstraction — not format — drives transfer effectiveness.</p>
+        <div class="table-scroll">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>LCB</th>
+              <th>SWEB</th>
+              <th>RepliB</th>
+              <th>Avg.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Task-specific Insights</td>
+              <td>0.887</td><td>0.617</td><td>0.067</td><td>0.523</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>Task-agnostic Insights</strong></td>
+              <td>0.893</td><td>0.627</td><td>0.082</td><td><strong>0.534</strong></td>
+            </tr>
+            <tr class="delta-row">
+              <td>Δ</td>
+              <td>+0.6%</td><td>+1.0%</td><td>+1.5%</td><td><strong>+1.1%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
       </div>
     </div>
 
@@ -427,6 +468,50 @@
       <span class="finding-label">Finding 3</span>
       More abstract and generalized memory representations yield higher transfer effectiveness
       by avoiding brittle implementation anchoring.
+    </div>
+
+    <!-- Case Study: Trajectory vs. Insight -->
+    <h4 class="case-study-title">Case Study: Trajectory vs. Insight</h4>
+    <p class="section-desc">
+      Trajectory memory causes the agent to blindly follow task-specific commands that fail in
+      a new environment. Insight memory provides abstract behavioral guidance, leading to success.
+    </p>
+    <div class="case-study-table-wrap">
+      <div class="table-scroll">
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th style="width:9%"></th>
+            <th style="width:45.5%">MTL with Trajectory <span class="badge badge-fail">Fail</span></th>
+            <th style="width:45.5%">MTL with Insight <span class="badge badge-pass">Success</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="case-label">Memory</td>
+            <td>
+              <span class="case-source">From MLGym-Bench</span><br/>
+              <strong>Task:</strong> Housing Price Prediction dataset + baseline...<br/><br/>
+              <strong>Trajectory snippet:</strong><br/>
+              <code>ls -la data &amp;&amp; nl -ba evaluate.py | sed -n '1,240p'</code><br/>
+              <code>cat &lt;&lt;'PY' &gt; train_predict.py ... OneHotEncoder(..., sparse=False) ... PY</code><br/>
+              <span class="case-error">→ TypeError: OneHotEncoder.__init__() got an unexpected keyword argument 'sparse'</span>
+            </td>
+            <td>
+              <span class="case-source">From MLGym-Bench</span><br/>
+              <strong>Title:</strong> Inspect eval requirements, combine train+val, use robust preprocessing, and adapt to library API changes<br/><br/>
+              <strong>Description:</strong> Before improving a baseline model, read the repository/evaluation expectations, train on all available labeled data, apply robust preprocessing for numeric and categorical features...<br/><br/>
+              <strong>Content:</strong> First inspect the code that loads labels and evaluates predictions so you know the exact submission format and metrics to optimize. For the final model, combine training...
+            </td>
+          </tr>
+          <tr>
+            <td class="case-label">Reasoning</td>
+            <td>I'll start by inspecting the repository root... I'll use Memory Item 1 as a reference for the initial steps of exploring the codebase.<br/><span class="case-error">Blindly following the trajectory resulted in an execution error.</span></td>
+            <td>I will modify gradient_boosting.py to map encoded integer labels back to the original class labels before passing them to the scorer during early stopping... <span class="case-success">I'll use Memory Item 2 (inspect/evaluate and adapt code) as guidance to carefully inspect and modify the code.</span></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
     </div>
 
     <!-- Analysis 3: Negative Transfer -->
@@ -529,6 +614,40 @@
       embedding-based retrieval, suggesting that static retrieval methods designed for RAG
       do not generalize to multi-step agentic settings.
     </p>
+    <div class="table-wrap">
+      <p class="table-caption"><strong>Table 5.</strong> Pass@3 performance comparison across different memory retrieval methods. Simple embedding similarity outperforms both LLM reranking and adaptive rewriting, highlighting the difficulty of cross-domain retrieval in agentic settings.</p>
+      <div class="table-scroll">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Retrieval Method</th>
+            <th>LiveCodeBenchv6</th>
+            <th>SWEBench-Verified</th>
+            <th>ReplicationBench</th>
+            <th>Avg.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>No Memory</td>
+            <td>0.910</td><td>0.730</td><td>0.111</td><td>0.584</td>
+          </tr>
+          <tr>
+            <td>LLM Reranking</td>
+            <td>0.920</td><td>0.730</td><td>0.144</td><td>0.598</td>
+          </tr>
+          <tr>
+            <td>Adaptive Rewriting</td>
+            <td>0.920</td><td>0.760</td><td>0.144</td><td><u>0.608</u></td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>Embedding Similarity</strong></td>
+            <td>0.930</td><td>0.770</td><td>0.189</td><td><strong>0.630</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
     <div class="finding-box">
       <span class="finding-label">Finding 7</span>
       Cross-domain memory retrieval is inherently challenging, and static retrieval methods
