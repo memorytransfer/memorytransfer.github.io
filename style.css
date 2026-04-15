@@ -760,9 +760,9 @@ code {
   font-size: 14px;
 }
 
-/* Highlight rows (green tint for best method) */
+/* Highlight rows (amber tint for best method) */
 .results-table .highlight-row td {
-  background: #f0fdf4;
+  background: #fffbeb;
 }
 
 /* ---------- BibTeX ---------- */
