@@ -420,15 +420,11 @@
 
     <!-- Row 2 description -->
     <p class="section-desc">
-      To quantify the geometric separation observed in Figure 5, we compute two clustering metrics,
-      the Davies-Bouldin Index (DBI) and the Local Inverse Simpson's Index (LISI), across all four
-      memory formats (Figure 6). Both metrics increase monotonically from Trajectory to Insight,
-      confirming that higher-level representations yield progressively more intermingled, benchmark-agnostic
-      embedding spaces. 
-      <br>
-      To establish that abstraction itself, rather than the Insight format, drives transfer effectiveness, we further conduct a causal analysis within Insight memories
-      (Table 3): filtering to task-agnostic Insights consistently outperforms task-specific ones
-      across all three benchmarks, with an average gain of <strong>+1.1%</strong>.
+      Figure 6 quantifies this separation with DBI and LISI: both metrics increase monotonically
+      from Trajectory to Insight, confirming a progressive transition toward benchmark-agnostic
+      representations. Table 3 provides causal evidence: within Insight memories, task-agnostic
+      ones outperform task-specific ones by <strong>+1.1%</strong> on average, showing that abstraction
+      itself drives transfer effectiveness.
     </p>
 
     <!-- Row 2: index_metric + causal analysis table side by side -->
