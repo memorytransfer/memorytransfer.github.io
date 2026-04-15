@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memory Transfer Learning: How Memories are Transferred Across Domains in Coding Agents</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <span class="nav-brand">MTL</span>
+    <ul class="nav-links">
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#analysis">Analysis</a></li>
+      <li><a href="#bibtex">BibTeX</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="container">
+    <p class="venue-badge">ICML 2026</p>
+    <h1 class="paper-title">
+      Memory Transfer Learning:<br />
+      <span class="title-sub">How Memories are Transferred Across Domains in Coding Agents</span>
+    </h1>
+
+    <div class="authors">
+      <span class="author">Kangsan Kim<sup>1</sup></span>
+      <span class="author">Minki Kang<sup>1</sup></span>
+      <span class="author">Taeil Kim<sup>1</sup></span>
+      <span class="author">Yanlai Yang<sup>2</sup></span>
+      <span class="author">Mengye Ren<sup>2†</sup></span>
+      <span class="author">Sung Ju Hwang<sup>1,3†</sup></span>
+    </div>
+    <div class="affiliations">
+      <sup>1</sup>KAIST &nbsp;&nbsp;
+      <sup>2</sup>New York University &nbsp;&nbsp;
+      <sup>3</sup>DeepAuto.ai &nbsp;&nbsp;
+      <sup>†</sup>Equal advising
+    </div>
+    <p class="correspondence">Correspondence: <a href="mailto:kangsan.kim@kaist.ac.kr">kangsan.kim@kaist.ac.kr</a></p>
+
+    <div class="hero-buttons">
+      <a href="#" class="btn btn-primary">📄 Paper</a>
+      <a href="#" class="btn btn-secondary">💻 Code</a>
+    </div>
+
+    <div class="tldr">
+      <strong>TL;DR</strong> &mdash; We investigate cross-domain memory transfer for coding agents and show that leveraging a unified memory pool from heterogeneous benchmarks improves average performance by <strong>3.7%</strong>. Abstraction is the key: high-level insights generalize across domains while low-level traces induce negative transfer.
+    </div>
+  </div>
+</header>
+
+<!-- ===================== ABSTRACT ===================== -->
+<section id="abstract" class="section">
+  <div class="container">
+    <h2 class="section-title">Abstract</h2>
+    <p class="abstract-text">
+      Memory-based self-evolution has emerged as a promising paradigm for coding agents.
+      However, existing approaches typically restrict memory utilization to homogeneous task domains,
+      failing to leverage the shared infrastructural foundations—such as runtime environments and
+      programming languages—that exist across diverse real-world coding problems.
+    </p>
+    <p class="abstract-text">
+      To address this limitation, we investigate <strong>Memory Transfer Learning (MTL)</strong> by
+      harnessing a unified memory pool from heterogeneous domains. We evaluate performance across
+      6 coding benchmarks using four memory representations, ranging from concrete traces to abstract
+      insights. Our experiments demonstrate that cross-domain memory improves average performance by
+      <strong>3.7%</strong>, primarily by transferring meta-knowledge, such as validation routines,
+      rather than task-specific code.
+    </p>
+    <p class="abstract-text">
+      Importantly, we find that <strong>abstraction dictates transferability</strong>: high-level
+      insights generalize well, whereas low-level traces often induce negative transfer due to
+      excessive specificity. Furthermore, we show that transfer effectiveness scales with the size
+      of the memory pool, and memory can be transferred even between different models. Our work
+      establishes empirical design principles for expanding memory utilization beyond single-domain
+      silos.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== OVERVIEW ===================== -->
+<section id="overview" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Overview</h2>
+    <p class="section-desc">
+      Existing self-evolving coding agents restrict memory usage to the same benchmark (B).
+      We propose Memory Transfer Learning (C), which leverages a unified memory pool from
+      heterogeneous domains, and show it outperforms domain-restricted approaches (D).
+    </p>
+    <figure class="figure-block figure-wide">
+      <img src="images/concept_figure2.png" alt="MTL Concept Figure" />
+      <figcaption>
+        <strong>Figure 1.</strong> Concept of Memory Transfer Learning. (A) Prior inference
+        outcomes are saved as memories. (B) Self-evolving agents reuse memories only within the
+        same domain. (C) MTL builds a unified pool from all domains. (D) MTL consistently
+        outperforms single-domain memory approaches.
+      </figcaption>
+    </figure>
+
+    <!-- Research Questions -->
+    <div class="rq-grid">
+      <div class="rq-card">
+        <div class="rq-label">RQ1</div>
+        <p>Does memory from heterogeneous domains improve the performance of coding agents?</p>
+      </div>
+      <div class="rq-card">
+        <div class="rq-label">RQ2</div>
+        <p>Why do transferred memories yield benefits across different domains?</p>
+      </div>
+      <div class="rq-card">
+        <div class="rq-label">RQ3</div>
+        <p>Which factors in memory transfer learning most influence transfer effectiveness?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== METHOD ===================== -->
+<section id="method" class="section">
+  <div class="container">
+    <h2 class="section-title">Method</h2>
+
+    <h3 class="subsection-title">Memory Representations</h3>
+    <p class="section-desc">
+      We construct four types of memory representations from agent trajectories, spanning a
+      spectrum from concrete low-level traces to abstract high-level insights.
+    </p>
+
+    <figure class="figure-block figure-wide">
+      <img src="images/memory_example.png" alt="Four Memory Representations" />
+      <figcaption>
+        <strong>Figure 2.</strong> Four memory formats used in this work.
+        <em>Trajectory</em> retains all raw commands and observations.
+        <em>Workflow</em> extracts reusable action sequences.
+        <em>Summary</em> provides a natural-language account of successes and failures.
+        <em>Insight</em> distills generalizable principles without task-specific details.
+      </figcaption>
+    </figure>
+
+    <div class="memory-types">
+      <div class="memory-card">
+        <div class="memory-icon" style="background:#e8f4fd;">🔍</div>
+        <h4>Trajectory</h4>
+        <p>Concatenates all agent commands and execution results without reasoning sentences. Contains full task-solving detail including failed steps.</p>
+      </div>
+      <div class="memory-card">
+        <div class="memory-icon" style="background:#fef9e7;">⚙️</div>
+        <h4>Workflow</h4>
+        <p>Extracts a reusable goal-oriented workflow from the trajectory — a goal statement plus a subset of meaningful actions.</p>
+      </div>
+      <div class="memory-card">
+        <div class="memory-icon" style="background:#eafaf1;">📝</div>
+        <h4>Summary</h4>
+        <p>Prompts an LLM to summarize the task, environment, actions, and an analysis of why the inference succeeded or failed.</p>
+      </div>
+      <div class="memory-card">
+        <div class="memory-icon" style="background:#f5eef8;">💡</div>
+        <h4>Insight</h4>
+        <p>Generalizable principles with title, description, and content — written to be task-agnostic for effective cross-domain transfer.</p>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Memory Retrieval Pipeline</h3>
+    <p class="section-desc">
+      Memories from all benchmarks <em>except</em> the target benchmark are pooled and indexed
+      with text embeddings. At inference time, the top-<em>N</em> memories are retrieved via
+      cosine similarity and injected into the agent's system prompt.
+    </p>
+
+    <div class="pipeline-steps">
+      <div class="pipeline-step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Memory Generation</h4>
+          <p>Run the agent across all benchmarks. Use an LLM judge to assess success/failure, then generate all four memory types from each trajectory.</p>
+        </div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Pool Construction</h4>
+          <p>Merge memories from all benchmarks except the target. Index each memory using <em>text-embedding-3-small</em> for fast retrieval.</p>
+        </div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Retrieval &amp; Inference</h4>
+          <p>For each query, retrieve the top-3 most similar memories and prepend them to the coding agent's system prompt before inference.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RESULTS ===================== -->
+<section id="results" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Results</h2>
+
+    <h3 class="subsection-title">Main Results across 6 Benchmarks</h3>
+    <p class="section-desc">
+      MTL consistently improves performance across all six coding benchmarks.
+      Insight memories achieve the best results, with gains of up to <strong>8.3%</strong> on individual benchmarks.
+    </p>
+    <figure class="figure-block figure-wide">
+      <img src="images/main_results.png" alt="Main Results Table" />
+      <figcaption>
+        <strong>Table 1.</strong> Pass@3 scores across 6 coding benchmarks under zero-shot,
+        self-evolving, and Memory Transfer Learning settings with four memory formats.
+        MTL with Insight achieves a <strong>+4.0% average gain</strong> over zero-shot.
+      </figcaption>
+    </figure>
+
+    <h3 class="subsection-title">Comparison with Self-Evolving Baselines</h3>
+    <p class="section-desc">
+      MTL outperforms ReasoningBank (+2.9%) and AgentKB (+1.7%) with only <strong>431 memories</strong>
+      — far fewer than AgentKB's 5.8k memories — demonstrating both effectiveness and efficiency.
+    </p>
+    <figure class="figure-block figure-medium">
+      <img src="images/average_score.png" alt="Average Score Comparison" />
+      <figcaption>
+        <strong>Figure 3.</strong> Average performance comparison across MTL configurations and
+        self-evolving baselines.
+      </figcaption>
+    </figure>
+
+    <!-- Finding Box -->
+    <div class="finding-box">
+      <span class="finding-label">Finding 1</span>
+      Memory Transfer Learning significantly improves coding agent performance and outperforms
+      self-evolving methods in both effectiveness and efficiency.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ANALYSIS ===================== -->
+<section id="analysis" class="section">
+  <div class="container">
+    <h2 class="section-title">Analysis</h2>
+
+    <!-- Analysis 1: Why does MTL work? -->
+    <h3 class="subsection-title">Why Does Memory Transfer Work?</h3>
+    <p class="section-desc">
+      We collect trajectories where zero-shot fails but MTL with Insight succeeds and analyze
+      how transferred memory contributes to success.
+    </p>
+    <figure class="figure-block figure-medium">
+      <img src="images/success_donut.png" alt="Success Donut Chart" />
+      <figcaption>
+        <strong>Figure 4.</strong> Categorization of how transferred memory enables successful
+        task completion. Meta-knowledge (structured workflows, constraint guardrails, safe editing
+        practices) accounts for the vast majority of gains. Algorithmic strategy transfer is rare
+        (5.5%).
+      </figcaption>
+    </figure>
+    <div class="finding-box">
+      <span class="finding-label">Finding 2</span>
+      Transferable knowledge exists across distinct task types, and its primary form is
+      <em>meta-memory</em> encoding procedural and behavioral guidance — not domain-specific code.
+    </div>
+
+    <!-- Analysis 2: Abstraction -->
+    <h3 class="subsection-title">Abstraction Dictates Transferability</h3>
+    <p class="section-desc">
+      We visualize memory embedding spaces and quantify cluster structure across benchmarks to
+      verify that higher abstraction correlates with stronger transferability.
+    </p>
+    <div class="two-col-figures">
+      <figure class="figure-block">
+        <img src="images/t-sne.png" alt="t-SNE Visualization" />
+        <figcaption>
+          <strong>Figure 5.</strong> t-SNE of memory embeddings. Trajectory embeddings form
+          tight benchmark clusters; Insight embeddings are sparse and intermingled across benchmarks,
+          indicating stronger generalization.
+        </figcaption>
+      </figure>
+      <figure class="figure-block">
+        <img src="images/index_metric.png" alt="Clustering Metrics" />
+        <figcaption>
+          <strong>Figure 6.</strong> Davies-Bouldin Index (DBI) and Local Inverse Simpson's
+          Index (LISI) across memory formats. Increasing DBI and LISI confirm a progressive
+          transition from task-specific to generalized representations.
+        </figcaption>
+      </figure>
+    </div>
+    <div class="finding-box">
+      <span class="finding-label">Finding 3</span>
+      More abstract and generalized memory representations yield higher transfer effectiveness
+      by avoiding brittle implementation anchoring.
+    </div>
+
+    <!-- Analysis 3: Negative Transfer -->
+    <h3 class="subsection-title">Negative Transfer in MTL</h3>
+    <p class="section-desc">
+      MTL can occasionally degrade performance. We identify three primary failure modes:
+    </p>
+    <div class="negative-transfer-grid">
+      <div class="nt-card">
+        <h4>Domain-mismatched Anchoring</h4>
+        <p>Structurally irrelevant but superficially similar memories act as misleading anchors,
+        introducing incorrect assumptions.</p>
+      </div>
+      <div class="nt-card">
+        <h4>False Validation Confidence</h4>
+        <p>Verification memories create a false sense of certainty, leading to self-confirming
+        loops that miss formal success criteria.</p>
+      </div>
+      <div class="nt-card">
+        <h4>Misapplied Best-Practice Transfer</h4>
+        <p>Successful patterns transferred indiscriminately override task-specific semantics,
+        causing procedural over-engineering.</p>
+      </div>
+    </div>
+    <div class="finding-box">
+      <span class="finding-label">Finding 4</span>
+      Negative memory transfer mainly arises from domain-mismatched misleading anchors,
+      false validation signals, and misapplied procedural reuse.
+    </div>
+
+    <!-- Analysis 4: Pool Size -->
+    <h3 class="subsection-title">Transfer Scales with Pool Size and Domain Diversity</h3>
+    <p class="section-desc">
+      Larger and more diverse memory pools consistently lead to better performance, as they
+      increase the chance of retrieving genuinely useful meta-knowledge.
+    </p>
+    <figure class="figure-block figure-medium">
+      <img src="images/pool_size.png" alt="Pool Size Scaling" />
+      <figcaption>
+        <strong>Figure 7.</strong> Performance of MTL as a function of memory pool size (left)
+        and number of source domains (right). Both axes show consistent improvement, with 9 domains
+        yielding the best results.
+      </figcaption>
+    </figure>
+    <div class="finding-box">
+      <span class="finding-label">Finding 5</span>
+      The effectiveness of Memory Transfer Learning scales with the size of the memory pool
+      and the number of source domains.
+    </div>
+
+    <!-- Analysis 5: Cross-model -->
+    <h3 class="subsection-title">Cross-Model Memory Transfer</h3>
+    <p class="section-desc">
+      Since meta-knowledge is model-agnostic, memories generated by one model can benefit a
+      different model — in both directions (stronger→weaker and weaker→stronger).
+    </p>
+    <div class="finding-box">
+      <span class="finding-label">Finding 6</span>
+      Memory can be transferred across different models. Self-generated memories yield the
+      best performance, but cross-model transfer consistently beats the zero-shot baseline.
+    </div>
+
+    <!-- Analysis 6: Retrieval -->
+    <h3 class="subsection-title">Cross-Domain Retrieval is Challenging</h3>
+    <p class="section-desc">
+      LLM-based reranking and task-adaptive memory rewriting did not outperform simple
+      embedding-based retrieval, suggesting that static retrieval methods designed for RAG
+      do not generalize to multi-step agentic settings.
+    </p>
+    <div class="finding-box">
+      <span class="finding-label">Finding 7</span>
+      Cross-domain memory retrieval is inherently challenging, and static retrieval methods
+      fail to generalize in heterogeneous agentic settings.
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== BIBTEX ===================== -->
+<section id="bibtex" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">BibTeX</h2>
+    <p class="section-desc">If you find this work useful, please cite:</p>
+    <div class="bibtex-block">
+      <button class="copy-btn" onclick="copyBibtex()" id="copy-btn">Copy</button>
+      <pre id="bibtex-content">@inproceedings{kim2026memorytransfer,
+  title     = {Memory Transfer Learning: How Memories are Transferred Across Domains in Coding Agents},
+  author    = {Kim, Kangsan and Kang, Minki and Kim, Taeil and Yang, Yanlai and Ren, Mengye and Hwang, Sung Ju},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year      = {2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 Kangsan Kim et al. &nbsp;|&nbsp; KAIST &amp; NYU</p>
+    <p class="footer-ack">
+      Website design inspired by
+      <a href="https://ma-egoqa.github.io/" target="_blank">MA-EgoQA</a>.
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Sticky navbar active link highlight
+  const sections = document.querySelectorAll('section[id], header[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Copy BibTeX
+  function copyBibtex() {
+    const text = document.getElementById('bibtex-content').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  // Smooth scroll offset for fixed navbar
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 64;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
