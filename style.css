@@ -225,7 +225,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .tldr {
   margin: 36px auto 0;
-  max-width: 700px;
+  max-width: min(780px, 100%);
   background: var(--accent-light);
   border-left: 4px solid var(--accent);
   padding: 18px 22px;
